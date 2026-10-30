@@ -2,6 +2,8 @@
 
 **English** | [中文](#中文说明)
 
+![Reason Rack Plugin (Europa) running inside Linux REAPER via yabridge](docs/reason_rack_europa_screenshot.png)
+
 > **Disclaimer.** Reason is a commercial product of Reason Studios AB. This repository contains **no** Reason binaries, installers, sound banks or licence data. You need your own Reason licence and Reason Studios account. This project is not affiliated with or endorsed by Reason Studios.
 
 ## Goal
@@ -15,7 +17,14 @@ Run the **Reason Rack Plugin** (Reason 14, Windows VST3) inside **native Linux R
 | yabridge | master build, commit `b580a9f7fc46509767ca156d4f92872552b9e571` |
 | DAW | REAPER 7.84 Linux x86_64 |
 | Display | headless Xvfb, no GPU |
-| Reason | Reason 14 (Rack Plugin VST3), official Windows installer |
+| Reason | Reason 14.1.0 (Rack Plugin VST3), official Windows installer |
+
+## Quick start
+1. Install Wine 11 stable (WineHQ) and create a prefix: `WINEPREFIX=~/wine-reason wineboot -u`
+2. Install Reason 14 silently in that prefix and authorise it in Reason Companion (see §3 for the CDP login workaround).
+3. Build yabridge from master (`b580a9f7`) — 5.1.1 breaks Rack menus on Wine ≥ 9.22.
+4. `yabridgectl add "$WINEPREFIX/drive_c/Program Files/Common Files/VST3" && yabridgectl sync`
+5. Start REAPER (Linux), rescan VST3, insert **Reason Rack Plugin**. Optional: run the `scripts/reaper/*.lua` ReaScripts to build/render songs headless.
 
 ## 1. Install Wine 11 (WineHQ stable)
 ```bash
@@ -110,7 +119,9 @@ See [docs/REAPER_API_NOTES.md](docs/REAPER_API_NOTES.md) for the MP3 render blob
 在 **Linux 原生 REAPER** 中，通过 Wine + yabridge 运行 **Reason Rack Plugin**（Reason 14 的 Windows VST3），并且可以在无显示器、无 GPU 的服务器上（Xvfb）用 ReaScript 自动编曲和渲染。
 
 ### 测试环境
-Debian 13、Wine 11.0（winehq-stable）、yabridge master（commit `b580a9f7`）、REAPER 7.84 Linux、Xvfb、无 GPU。
+Debian 13、Wine 11.0（winehq-stable）、yabridge master（commit `b580a9f7`）、REAPER 7.84 Linux、Reason 14.1.0、Xvfb、无 GPU。
+
+![REAPER 中运行的 Reason Rack Plugin](docs/reason_rack_europa_screenshot.png)
 
 ### 步骤
 1. **安装 Wine 11：**添加 WineHQ 源，执行 `apt install --install-recommends winehq-stable`，然后 `WINEPREFIX=~/wine-reason wineboot -u`。
